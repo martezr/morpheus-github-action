@@ -1,4 +1,5 @@
 import {env} from "process";
+import fetch from "node-fetch";
 const core = require("@actions/core");
 const github = require("@actions/github");
 
