@@ -9587,6 +9587,14 @@ module.exports = require("path");
 
 /***/ }),
 
+/***/ 7282:
+/***/ ((module) => {
+
+"use strict";
+module.exports = require("process");
+
+/***/ }),
+
 /***/ 5477:
 /***/ ((module) => {
 
@@ -9685,13 +9693,23 @@ var __webpack_exports__ = {};
 // This entry need to be wrapped in an IIFE because it need to be in strict mode.
 (() => {
 "use strict";
+var exports = __webpack_exports__;
 
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+const process_1 = __nccwpck_require__(7282);
 const core = __nccwpck_require__(2186);
 const github = __nccwpck_require__(5438);
 const inputName = core.getInput("name");
+const morpheusAPI = process_1.env.MORPHEUS_API_URL;
+const morpheusToken = process_1.env.MORPHEUS_API_TOKEN;
 greet(inputName);
 function greet(name) {
     console.log(`'Hello ${name}! You are running a GH Action'`);
+    fetch('${morpheusAPI}/api/ping', {
+        headers: { Authentication: 'Bearer Token ${morpheusToken}' }
+    })
+        .then(resp => resp.json())
+        .then(json => console.log(json));
 }
 
 })();
