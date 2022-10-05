@@ -1,0 +1,12 @@
+name: 'Morpheus'
+description: 'Provision Morpheus'
+inputs:
+  name:  # id of input
+    description: 'The catalog item name'
+    required: true
+outputs:
+  time: # id of output
+    description: 'The time we greeted you'
+runs:
+  using: 'node16'
+  main: 'index.js'
