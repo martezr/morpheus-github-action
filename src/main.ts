@@ -12,8 +12,8 @@ greet(inputName);
 function greet(name: string) {
   console.log(`'Hello ${name}! You are running a GH Action'`);
   
-  fetch('${morpheusAPI}/api/ping', {
-    headers: {Authentication: 'Bearer Token ${morpheusToken}'}
+  fetch(`${morpheusAPI}/api/ping`, {
+    headers: {Authentication: `Bearer Token ${morpheusToken}`}
   })
      .then(resp => resp.json())
      .then(json => console.log(json))
