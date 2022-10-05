@@ -20,8 +20,9 @@ const morpheusToken = process_1.env.MORPHEUS_API_TOKEN;
 greet(inputName);
 function greet(name) {
     console.log(`'Hello ${name}! You are running a GH Action'`);
-    (0, node_fetch_1.default)('${morpheusAPI}/api/ping', {
-        headers: { Authentication: 'Bearer Token ${morpheusToken}' }
+    var apiUrl = morpheusAPI + "/api/ping";
+    (0, node_fetch_1.default)(apiUrl, {
+        headers: { Authentication: `Bearer Token ${morpheusToken}` }
     })
         .then(resp => resp.json())
         .then(json => console.log(json));
