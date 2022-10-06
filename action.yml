@@ -4,7 +4,7 @@ inputs:
   name:  # id of input
     description: 'The catalog item name'
     required: true
-  paramters:
+  parameters:
     description: 'Catalog item input parameters in JSON format'
     required: false
 outputs:

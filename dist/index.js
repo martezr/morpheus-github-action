@@ -23,15 +23,15 @@ const headers = {
     "Authorization": `BEARER ${morpheusToken}`,
 };
 var output = {};
-output["order"].items = [];
+output["order"]["items"] = [];
 var itemPayload = {};
-itemPayload["type"].name = "test";
+itemPayload["type"]["name"] = "test";
 itemPayload["config"] = {};
 console.log(inputParameters);
 inputParameters.forEach(function (value, key) {
     itemPayload["config"][key] = value;
 });
-output["order"].items.push(itemPayload);
+output["order"]["items"].push(itemPayload);
 console.log(JSON.stringify(output));
 const data = JSON.stringify(output);
 orderCatalogItem(inputName);
