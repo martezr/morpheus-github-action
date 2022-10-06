@@ -14,14 +14,16 @@ const headers = {
 
 console.log(inputParameters)
 //let jsonObject = {};  
-let map = new Map<string, string>()  
+//let map = new Map<string, string>()  
 
-inputParameters.forEach(function(value: any, key: any) {
-  map.set(key, value)
+const parsed = JSON.parse(inputParameters);
+
+//inputParameters.forEach(function(value: any, key: any) {
+//  map.set(key, value)
  // jsonObject[key] = value
-})
+//})
 
-console.log(map)
+console.log(parsed)
 var out = {
   "order": {
        "items": [
@@ -29,7 +31,7 @@ var out = {
                  "type": {
                       "name": inputName
                  },
-                 "config": map
+                 "config": parsed
             }
        ]
   }
