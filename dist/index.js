@@ -19,7 +19,7 @@ const morpheusAPI = process_1.env.MORPHEUS_API_URL;
 const morpheusToken = process_1.env.MORPHEUS_API_TOKEN;
 const headers = {
     "Content-Type": "application/json",
-    "Authorization": "BEARER ${morpheusToken}",
+    "Authorization": `BEARER ${morpheusToken}`,
 };
 const data = JSON.stringify({ order: { items: [{ type: { name: 'DataDog Demo' } }] } });
 orderCatalogItem(inputName);
