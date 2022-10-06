@@ -23,14 +23,16 @@ const headers = {
     "Authorization": `BEARER ${morpheusToken}`,
 };
 const obj = {};
-obj.order.items[0].type.name = inputName;
+const objItem = {};
+objItem.type.name = inputName;
 console.log(inputParameters);
 const map = new Map(Object.entries(inputParameters));
 //inputParameters.forEach(function(value: string, key: string) {
 //  obj.order.items[0].config.
 //  obj.order.items[0].config.key = value
 //})
-obj.order.items[0].config = map;
+objItem.config = map;
+obj.order.items.push(objItem);
 console.log(JSON.stringify(obj));
 const data = JSON.stringify(obj);
 orderCatalogItem(inputName);

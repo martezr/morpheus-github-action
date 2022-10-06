@@ -14,18 +14,20 @@ const headers = {
 
 interface Payload {
   order: {
-    items: Array<{
-      type: {
-        name: string
-      }
-      config: {}
-    }>
+    items: Item[];
   };
 }
 
-const obj = {} as Payload;
+export interface Item {
+  type: {
+    name: string
+  }
+  config: {}
+}
 
-obj.order.items[0].type.name = inputName;
+const obj = {} as Payload;
+const objItem = {} as Item;
+objItem.type.name = inputName;
 
 console.log(inputParameters)
 const map = new Map(Object.entries(inputParameters))
@@ -33,7 +35,8 @@ const map = new Map(Object.entries(inputParameters))
 //  obj.order.items[0].config.
 //  obj.order.items[0].config.key = value
 //})
-obj.order.items[0].config = map
+objItem.config = map
+obj.order.items.push(objItem)
 
 console.log(JSON.stringify(obj))
 
