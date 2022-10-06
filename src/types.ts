@@ -14,16 +14,27 @@ export interface OrderResponse {
   export interface Item {
     id: number
     type: Type
+    refType: string
+    instance?: Instance
     quantity: number
     price: number
     currency: string
     unit: string
     valid: boolean
     status: string
+    statusMessage: string
     dateCreated: string
     lastUpdated: string
   }
   
+  export interface Instance {
+    id: number
+    name: string
+    status: string
+    locations: string[]
+    version: string
+  }
+
   export interface Type {
     id: number
     name: string

@@ -33,9 +33,17 @@ const headers = {
   "Authorization": `BEARER ${morpheusToken}`,
 }
 
-orderCatalogItem(inputName);
+var orderID = orderCatalogItem(inputName);
+delay(15000)
 
-async function orderCatalogItem(name: OrderResponse) {
+const result = Promise.resolve(orderID);
+result.then((orderOutID) => {
+  getCatalogItem(orderOutID);
+}).catch((err) => {
+  console.log(err);
+});
+
+async function orderCatalogItem(name: OrderResponse): Promise<number> {
   var apiUrl = morpheusAPI + "/api/catalog/orders"
   const response = await fetch(apiUrl, { method: 'POST', headers: headers, body: data})
   if (!response.ok) {
@@ -45,14 +53,34 @@ async function orderCatalogItem(name: OrderResponse) {
   const catalogOrder = await response.json() as OrderResponse
   console.log(catalogOrder)
   console.log(catalogOrder.order.items[0].id)
+  return catalogOrder.order.items[0].id
 }
 
-function getCatalogItem(itemID: number) {
+async function getCatalogItem(itemID: number) {
   var apiUrl = morpheusAPI + "/api/catalog/orders/" + itemID
-  fetch(apiUrl, { method: 'GET', headers: headers})
+  await fetch(apiUrl, { method: 'GET', headers: headers})
      .then(resp => resp.json())
      .then(json => console.log(json))
      .catch(error => {
        console.log(error)
      })
+}
+
+function delay(milliseconds : number) {
+  return new Promise(resolve => setTimeout( resolve, milliseconds));
+}
+
+function getActualId(): Promise<number> {
+  return new Promise((resolve) => {
+      setTimeout(() => {
+          resolve(Math.floor(Math.random() * 100));
+      }, 100);
+  });
+}
+
+async function getId(orderID: Promise<number>) {
+  const result = await Promise.resolve(orderID);
+  const greeting: number = result;
+
+  return greeting;
 }

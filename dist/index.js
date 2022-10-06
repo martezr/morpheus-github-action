@@ -48,7 +48,14 @@ const headers = {
     "Content-Type": "application/json",
     "Authorization": `BEARER ${morpheusToken}`,
 };
-orderCatalogItem(inputName);
+var orderID = orderCatalogItem(inputName);
+delay(15000);
+const result = Promise.resolve(orderID);
+result.then((orderOutID) => {
+    getCatalogItem(orderOutID);
+}).catch((err) => {
+    console.log(err);
+});
 function orderCatalogItem(name) {
     return __awaiter(this, void 0, void 0, function* () {
         var apiUrl = morpheusAPI + "/api/catalog/orders";
@@ -60,15 +67,35 @@ function orderCatalogItem(name) {
         const catalogOrder = yield response.json();
         console.log(catalogOrder);
         console.log(catalogOrder.order.items[0].id);
+        return catalogOrder.order.items[0].id;
     });
 }
 function getCatalogItem(itemID) {
-    var apiUrl = morpheusAPI + "/api/catalog/orders/" + itemID;
-    (0, node_fetch_1.default)(apiUrl, { method: 'GET', headers: headers })
-        .then(resp => resp.json())
-        .then(json => console.log(json))
-        .catch(error => {
-        console.log(error);
+    return __awaiter(this, void 0, void 0, function* () {
+        var apiUrl = morpheusAPI + "/api/catalog/orders/" + itemID;
+        yield (0, node_fetch_1.default)(apiUrl, { method: 'GET', headers: headers })
+            .then(resp => resp.json())
+            .then(json => console.log(json))
+            .catch(error => {
+            console.log(error);
+        });
+    });
+}
+function delay(milliseconds) {
+    return new Promise(resolve => setTimeout(resolve, milliseconds));
+}
+function getActualId() {
+    return new Promise((resolve) => {
+        setTimeout(() => {
+            resolve(Math.floor(Math.random() * 100));
+        }, 100);
+    });
+}
+function getId(orderID) {
+    return __awaiter(this, void 0, void 0, function* () {
+        const result = yield Promise.resolve(orderID);
+        const greeting = result;
+        return greeting;
     });
 }
 
