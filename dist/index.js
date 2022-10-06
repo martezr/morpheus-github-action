@@ -72,7 +72,7 @@ function orderCatalogItem(name) {
 }
 function getCatalogItem(itemID) {
     return __awaiter(this, void 0, void 0, function* () {
-        var apiUrl = morpheusAPI + "/api/catalog/orders/" + itemID;
+        var apiUrl = morpheusAPI + "/api/catalog/items/" + itemID;
         yield (0, node_fetch_1.default)(apiUrl, { method: 'GET', headers: headers })
             .then(resp => resp.json())
             .then(json => console.log(json))

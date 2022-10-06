@@ -57,7 +57,7 @@ async function orderCatalogItem(name: OrderResponse): Promise<number> {
 }
 
 async function getCatalogItem(itemID: number) {
-  var apiUrl = morpheusAPI + "/api/catalog/orders/" + itemID
+  var apiUrl = morpheusAPI + "/api/catalog/items/" + itemID
   await fetch(apiUrl, { method: 'GET', headers: headers})
      .then(resp => resp.json())
      .then(json => console.log(json))
