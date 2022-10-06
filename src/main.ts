@@ -14,7 +14,7 @@ function greet(name: string) {
   
   var apiUrl = morpheusAPI + "/api/ping"
   fetch(apiUrl, {
-    headers: {Authentication: `Bearer Token ${morpheusToken}`}
+    headers: {Authorization: `BEARER ${morpheusToken}`}
   })
      .then(resp => resp.json())
      .then(json => console.log(json))

@@ -22,7 +22,7 @@ function greet(name) {
     console.log(`'Hello ${name}! You are running a GH Action'`);
     var apiUrl = morpheusAPI + "/api/ping";
     (0, node_fetch_1.default)(apiUrl, {
-        headers: { Authentication: `Bearer Token ${morpheusToken}` }
+        headers: { Authorization: `BEARER ${morpheusToken}` }
     })
         .then(resp => resp.json())
         .then(json => console.log(json));
