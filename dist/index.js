@@ -6,6 +6,15 @@
 
 "use strict";
 
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
@@ -14,23 +23,12 @@ const process_1 = __nccwpck_require__(7282);
 const node_fetch_1 = __importDefault(__nccwpck_require__(4429));
 const core = __nccwpck_require__(2186);
 const github = __nccwpck_require__(5438);
+// Define the catalog item input parameters
 const inputName = core.getInput("name");
-const inputParameters = core.getInput("parameters");
+const inputParameters = JSON.parse(core.getInput("parameters"));
 const morpheusAPI = process_1.env.MORPHEUS_API_URL;
 const morpheusToken = process_1.env.MORPHEUS_API_TOKEN;
-const headers = {
-    "Content-Type": "application/json",
-    "Authorization": `BEARER ${morpheusToken}`,
-};
-console.log(inputParameters);
-//let jsonObject = {};  
-//let map = new Map<string, string>()  
-const parsed = JSON.parse(inputParameters);
-//inputParameters.forEach(function(value: any, key: any) {
-//  map.set(key, value)
-// jsonObject[key] = value
-//})
-console.log(parsed);
+// Define the request payload
 var out = {
     "order": {
         "items": [
@@ -38,18 +36,34 @@ var out = {
                 "type": {
                     "name": inputName
                 },
-                "config": parsed
+                "config": inputParameters
             }
         ]
     }
 };
 console.log(JSON.stringify(out));
 const data = JSON.stringify(out);
+// Define payload header
+const headers = {
+    "Content-Type": "application/json",
+    "Authorization": `BEARER ${morpheusToken}`,
+};
 orderCatalogItem(inputName);
 function orderCatalogItem(name) {
-    console.log(`'Hello ${name}! You are running a GH Action'`);
-    var apiUrl = morpheusAPI + "/api/catalog/orders";
-    (0, node_fetch_1.default)(apiUrl, { method: 'POST', headers: headers, body: data })
+    return __awaiter(this, void 0, void 0, function* () {
+        var apiUrl = morpheusAPI + "/api/catalog/orders";
+        const response = yield (0, node_fetch_1.default)(apiUrl, { method: 'POST', headers: headers, body: data });
+        if (!response.ok) {
+            const message = `An error has occured: ${response.status}`;
+            throw new Error(message);
+        }
+        const catalogOrder = yield response.json();
+        console.log(catalogOrder);
+    });
+}
+function getCatalogItem(itemID) {
+    var apiUrl = morpheusAPI + "/api/catalog/orders/" + itemID;
+    (0, node_fetch_1.default)(apiUrl, { method: 'GET', headers: headers })
         .then(resp => resp.json())
         .then(json => console.log(json))
         .catch(error => {
