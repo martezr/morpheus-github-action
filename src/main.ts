@@ -12,22 +12,32 @@ const headers = {
   "Authorization": `BEARER ${morpheusToken}`,
 }
 
-var output: any = {};
-output["order"]["items"] = [];
+interface Payload {
+  order: {
+    items: Array<{
+      type: {
+        name: string
+      }
+      config: {}
+    }>
+  };
+}
 
-var itemPayload: any = {};
-itemPayload["type"]["name"] = "test"
-itemPayload["config"] = {};
+const obj = {} as Payload;
+
+obj.order.items[0].type.name = inputName;
 
 console.log(inputParameters)
-inputParameters.forEach(function(value: string, key: string) {
-  itemPayload["config"][key] = value
-})
+const map = new Map(Object.entries(inputParameters))
+//inputParameters.forEach(function(value: string, key: string) {
+//  obj.order.items[0].config.
+//  obj.order.items[0].config.key = value
+//})
+obj.order.items[0].config = map
 
-output["order"]["items"].push(itemPayload)
-console.log(JSON.stringify(output))
+console.log(JSON.stringify(obj))
 
-const data = JSON.stringify(output)
+const data = JSON.stringify(obj)
 
 orderCatalogItem(inputName);
 
