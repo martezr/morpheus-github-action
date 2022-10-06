@@ -1,5 +1,6 @@
 import {env} from "process";
 import fetch from "node-fetch";
+import { OrderResponse } from './types';
 const core = require("@actions/core");
 const github = require("@actions/github");
 
@@ -34,15 +35,16 @@ const headers = {
 
 orderCatalogItem(inputName);
 
-async function orderCatalogItem(name: string) {
+async function orderCatalogItem(name: OrderResponse) {
   var apiUrl = morpheusAPI + "/api/catalog/orders"
   const response = await fetch(apiUrl, { method: 'POST', headers: headers, body: data})
   if (!response.ok) {
     const message = `An error has occured: ${response.status}`;
     throw new Error(message);
   }
-  const catalogOrder = await response.json()
+  const catalogOrder = await response.json() as OrderResponse
   console.log(catalogOrder)
+  console.log(catalogOrder.order.items[0].id)
 }
 
 function getCatalogItem(itemID: number) {

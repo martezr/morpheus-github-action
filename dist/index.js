@@ -59,6 +59,7 @@ function orderCatalogItem(name) {
         }
         const catalogOrder = yield response.json();
         console.log(catalogOrder);
+        console.log(catalogOrder.order.items[0].id);
     });
 }
 function getCatalogItem(itemID) {
