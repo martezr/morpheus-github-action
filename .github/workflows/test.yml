@@ -16,7 +16,8 @@ jobs:
         uses: ./ # Uses an action in the root directory
         id: hello
         with:
-          name: 'Test'
+          name: 'MongoDB'
+          parameters: {"environment": 1,"databaseplan": 147,"mongodb_version":"4.4"}
       # Use the output from the `hello` step
       - name: Get the output time
         run: echo "The time was ${{ steps.hello.outputs.time }}"

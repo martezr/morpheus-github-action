@@ -15,13 +15,25 @@ const node_fetch_1 = __importDefault(__nccwpck_require__(4429));
 const core = __nccwpck_require__(2186);
 const github = __nccwpck_require__(5438);
 const inputName = core.getInput("name");
+const inputParameters = core.getInput("parameters");
 const morpheusAPI = process_1.env.MORPHEUS_API_URL;
 const morpheusToken = process_1.env.MORPHEUS_API_TOKEN;
 const headers = {
     "Content-Type": "application/json",
     "Authorization": `BEARER ${morpheusToken}`,
 };
-const data = JSON.stringify({ order: { items: [{ type: { name: 'DataDog Demo' } }] } });
+var output = {};
+output["order"].items = [];
+var itemPayload = {};
+itemPayload["type"].name = "test";
+itemPayload["config"] = {};
+console.log(inputParameters);
+inputParameters.forEach(function (value, key) {
+    itemPayload["config"][key] = value;
+});
+output["order"].items.push(itemPayload);
+console.log(JSON.stringify(output));
+const data = JSON.stringify(output);
 orderCatalogItem(inputName);
 function orderCatalogItem(name) {
     console.log(`'Hello ${name}! You are running a GH Action'`);
