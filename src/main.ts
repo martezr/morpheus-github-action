@@ -13,10 +13,10 @@ const headers = {
 }
 
 var output: any = {};
-output["order"].items = [];
+output["order"]["items"] = [];
 
 var itemPayload: any = {};
-itemPayload["type"].name = "test"
+itemPayload["type"]["name"] = "test"
 itemPayload["config"] = {};
 
 console.log(inputParameters)
@@ -24,7 +24,7 @@ inputParameters.forEach(function(value: string, key: string) {
   itemPayload["config"][key] = value
 })
 
-output["order"].items.push(itemPayload)
+output["order"]["items"].push(itemPayload)
 console.log(JSON.stringify(output))
 
 const data = JSON.stringify(output)
