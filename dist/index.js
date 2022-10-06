@@ -41,7 +41,6 @@ var out = {
         ]
     }
 };
-console.log(JSON.stringify(out));
 const data = JSON.stringify(out);
 // Define payload header
 const headers = {

@@ -15,7 +15,7 @@ export interface OrderResponse {
     id: number
     type: Type
     refType: string
-    instance?: Instance
+    instance: Instance
     quantity: number
     price: number
     currency: string
