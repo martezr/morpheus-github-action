@@ -17,15 +17,21 @@ const github = __nccwpck_require__(5438);
 const inputName = core.getInput("name");
 const morpheusAPI = process_1.env.MORPHEUS_API_URL;
 const morpheusToken = process_1.env.MORPHEUS_API_TOKEN;
-greet(inputName);
-function greet(name) {
+const headers = {
+    "Content-Type": "application/json",
+    "Authorization": "BEARER ${morpheusToken}",
+};
+const data = JSON.stringify({ order: { items: [{ type: { name: 'DataDog Demo' } }] } });
+orderCatalogItem(inputName);
+function orderCatalogItem(name) {
     console.log(`'Hello ${name}! You are running a GH Action'`);
-    var apiUrl = morpheusAPI + "/api/ping";
-    (0, node_fetch_1.default)(apiUrl, {
-        headers: { Authorization: `BEARER ${morpheusToken}` }
-    })
+    var apiUrl = morpheusAPI + "/api/catalog/orders";
+    (0, node_fetch_1.default)(apiUrl, { method: 'POST', headers: headers, body: data })
         .then(resp => resp.json())
-        .then(json => console.log(json));
+        .then(json => console.log(json))
+        .catch(error => {
+        console.log(error);
+    });
 }
 
 
