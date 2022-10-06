@@ -4,12 +4,12 @@ export interface OrderResponse {
     order: Order
   }
   
-  export interface Order {
+export interface Order {
     id: number
     name: any
     items: Item[]
     stats: Stats
-  }
+}
   
   export interface Item {
     id: number

@@ -48,7 +48,6 @@ const headers = {
     "Authorization": `BEARER ${morpheusToken}`,
 };
 var orderID = orderCatalogItem(inputName);
-delay(15000);
 const result = Promise.resolve(orderID);
 result.then((orderOutID) => {
     getCatalogItem(orderOutID);
@@ -57,6 +56,7 @@ result.then((orderOutID) => {
 });
 function orderCatalogItem(name) {
     return __awaiter(this, void 0, void 0, function* () {
+        console.log("Ordering catalog item");
         var apiUrl = morpheusAPI + "/api/catalog/orders";
         const response = yield (0, node_fetch_1.default)(apiUrl, { method: 'POST', headers: headers, body: data });
         if (!response.ok) {
@@ -64,6 +64,7 @@ function orderCatalogItem(name) {
             throw new Error(message);
         }
         const catalogOrder = yield response.json();
+        yield new Promise(done => setTimeout(done, 30000));
         console.log(catalogOrder);
         console.log(catalogOrder.order.items[0].id);
         return catalogOrder.order.items[0].id;
@@ -72,12 +73,13 @@ function orderCatalogItem(name) {
 function getCatalogItem(itemID) {
     return __awaiter(this, void 0, void 0, function* () {
         var apiUrl = morpheusAPI + "/api/catalog/items/" + itemID;
-        yield (0, node_fetch_1.default)(apiUrl, { method: 'GET', headers: headers })
-            .then(resp => resp.json())
-            .then(json => console.log(json))
-            .catch(error => {
-            console.log(error);
-        });
+        const itemResponse = yield (0, node_fetch_1.default)(apiUrl, { method: 'GET', headers: headers });
+        if (!itemResponse.ok) {
+            const message = `An error has occured: ${itemResponse.status}`;
+            throw new Error(message);
+        }
+        const itemOutput = yield itemResponse.json();
+        console.log(itemOutput);
     });
 }
 function delay(milliseconds) {

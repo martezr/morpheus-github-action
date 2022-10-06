@@ -1,6 +1,7 @@
 import {env} from "process";
 import fetch from "node-fetch";
 import { OrderResponse } from './types';
+import {Item} from './types'
 const core = require("@actions/core");
 const github = require("@actions/github");
 
@@ -33,7 +34,6 @@ const headers = {
 }
 
 var orderID = orderCatalogItem(inputName);
-delay(15000)
 
 const result = Promise.resolve(orderID);
 result.then((orderOutID) => {
@@ -43,6 +43,7 @@ result.then((orderOutID) => {
 });
 
 async function orderCatalogItem(name: OrderResponse): Promise<number> {
+  console.log("Ordering catalog item")
   var apiUrl = morpheusAPI + "/api/catalog/orders"
   const response = await fetch(apiUrl, { method: 'POST', headers: headers, body: data})
   if (!response.ok) {
@@ -50,6 +51,7 @@ async function orderCatalogItem(name: OrderResponse): Promise<number> {
     throw new Error(message);
   }
   const catalogOrder = await response.json() as OrderResponse
+  await new Promise(done => setTimeout(done, 30000));  
   console.log(catalogOrder)
   console.log(catalogOrder.order.items[0].id)
   return catalogOrder.order.items[0].id
@@ -57,12 +59,13 @@ async function orderCatalogItem(name: OrderResponse): Promise<number> {
 
 async function getCatalogItem(itemID: number) {
   var apiUrl = morpheusAPI + "/api/catalog/items/" + itemID
-  await fetch(apiUrl, { method: 'GET', headers: headers})
-     .then(resp => resp.json())
-     .then(json => console.log(json))
-     .catch(error => {
-       console.log(error)
-     })
+  const itemResponse = await fetch(apiUrl, { method: 'GET', headers: headers})
+  if (!itemResponse.ok) {
+    const message = `An error has occured: ${itemResponse.status}`;
+    throw new Error(message);
+  }
+  const itemOutput = await itemResponse.json() as Item
+  console.log(itemOutput)
 }
 
 function delay(milliseconds : number) {
