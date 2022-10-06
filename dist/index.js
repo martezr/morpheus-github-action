@@ -22,19 +22,26 @@ const headers = {
     "Content-Type": "application/json",
     "Authorization": `BEARER ${morpheusToken}`,
 };
-const obj = {};
-const objItem = {};
-objItem.type.name = inputName;
 console.log(inputParameters);
 const map = new Map(Object.entries(inputParameters));
+var out = {
+    "order": {
+        "items": [
+            {
+                "type": {
+                    "name": inputName
+                },
+                "config": map
+            }
+        ]
+    }
+};
 //inputParameters.forEach(function(value: string, key: string) {
 //  obj.order.items[0].config.
 //  obj.order.items[0].config.key = value
 //})
-objItem.config = map;
-obj.order.items.push(objItem);
-console.log(JSON.stringify(obj));
-const data = JSON.stringify(obj);
+console.log(JSON.stringify(out));
+const data = JSON.stringify(out);
 orderCatalogItem(inputName);
 function orderCatalogItem(name) {
     console.log(`'Hello ${name}! You are running a GH Action'`);

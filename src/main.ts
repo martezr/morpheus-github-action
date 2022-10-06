@@ -12,35 +12,30 @@ const headers = {
   "Authorization": `BEARER ${morpheusToken}`,
 }
 
-interface Payload {
-  order: {
-    items: Item[];
-  };
-}
-
-export interface Item {
-  type: {
-    name: string
-  }
-  config: {}
-}
-
-const obj = {} as Payload;
-const objItem = {} as Item;
-objItem.type.name = inputName;
-
 console.log(inputParameters)
 const map = new Map(Object.entries(inputParameters))
+var out = {
+  "order": {
+       "items": [
+            {
+                 "type": {
+                      "name": inputName
+                 },
+                 "config": map
+            }
+       ]
+  }
+}
+
 //inputParameters.forEach(function(value: string, key: string) {
 //  obj.order.items[0].config.
 //  obj.order.items[0].config.key = value
 //})
-objItem.config = map
-obj.order.items.push(objItem)
 
-console.log(JSON.stringify(obj))
 
-const data = JSON.stringify(obj)
+console.log(JSON.stringify(out))
+
+const data = JSON.stringify(out)
 
 orderCatalogItem(inputName);
 
