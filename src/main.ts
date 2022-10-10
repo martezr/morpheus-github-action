@@ -79,6 +79,7 @@ async function getCatalogItem(itemID: number): Promise<string> {
     throw new Error(message);
   }
   const itemOutput = await itemResponse.json() as Item
+  console.log(itemOutput)
   console.log(itemOutput.instance.status)
   return itemOutput.instance.status
 }

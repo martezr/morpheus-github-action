@@ -95,6 +95,7 @@ function getCatalogItem(itemID) {
             throw new Error(message);
         }
         const itemOutput = yield itemResponse.json();
+        console.log(itemOutput);
         console.log(itemOutput.instance.status);
         return itemOutput.instance.status;
     });
