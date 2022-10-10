@@ -47,10 +47,10 @@ const headers = {
     "Content-Type": "application/json",
     "Authorization": `BEARER ${morpheusToken}`,
 };
-var orderID = orderCatalogItem(inputName);
+const orderID = orderCatalogItem(inputName);
 const result = Promise.resolve(orderID);
-result.then((orderOutID) => {
-    getCatalogItem(orderOutID);
+result.then((value) => {
+    pollingWrapper(value);
 }).catch((err) => {
     console.log(err);
 });
@@ -70,6 +70,18 @@ function orderCatalogItem(name) {
         return catalogOrder.order.items[0].id;
     });
 }
+function pollingWrapper(itemID) {
+    return __awaiter(this, void 0, void 0, function* () {
+        console.log("Polling api...");
+        let currentData = "provisioning";
+        while (currentData == "provisioning") {
+            const output = yield getCatalogItem(itemID);
+            currentData = output;
+            console.log(currentData);
+            yield new Promise(done => setTimeout(done, 30000));
+        }
+    });
+}
 function getCatalogItem(itemID) {
     return __awaiter(this, void 0, void 0, function* () {
         var apiUrl = morpheusAPI + "/api/catalog/items/" + itemID;
@@ -79,7 +91,8 @@ function getCatalogItem(itemID) {
             throw new Error(message);
         }
         const itemOutput = yield itemResponse.json();
-        console.log(itemOutput);
+        console.log(itemOutput.instance.status);
+        return itemOutput.instance.status;
     });
 }
 function delay(milliseconds) {

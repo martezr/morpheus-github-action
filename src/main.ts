@@ -33,11 +33,10 @@ const headers = {
   "Authorization": `BEARER ${morpheusToken}`,
 }
 
-var orderID = orderCatalogItem(inputName);
-
+const orderID = orderCatalogItem(inputName);
 const result = Promise.resolve(orderID);
-result.then((orderOutID) => {
-  getCatalogItem(orderOutID);
+result.then((value) => {
+  pollingWrapper(value)
 }).catch((err) => {
   console.log(err);
 });
@@ -57,7 +56,18 @@ async function orderCatalogItem(name: OrderResponse): Promise<number> {
   return catalogOrder.order.items[0].id
 }
 
-async function getCatalogItem(itemID: number) {
+async function pollingWrapper(itemID: number){
+ console.log("Polling api...")
+ let currentData = "provisioning"
+ while (currentData == "provisioning") {
+  const output = await getCatalogItem(itemID)
+  currentData = output;  
+  console.log(currentData)
+  await new Promise(done => setTimeout(done, 30000));  
+ }
+}
+
+async function getCatalogItem(itemID: number): Promise<string> {
   var apiUrl = morpheusAPI + "/api/catalog/items/" + itemID
   const itemResponse = await fetch(apiUrl, { method: 'GET', headers: headers})
   if (!itemResponse.ok) {
@@ -65,7 +75,8 @@ async function getCatalogItem(itemID: number) {
     throw new Error(message);
   }
   const itemOutput = await itemResponse.json() as Item
-  console.log(itemOutput)
+  console.log(itemOutput.instance.status)
+  return itemOutput.instance.status
 }
 
 function delay(milliseconds : number) {
