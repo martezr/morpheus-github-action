@@ -73,10 +73,15 @@ function orderCatalogItem(name) {
 function pollingWrapper(itemID) {
     console.log("Polling api...");
     let currentData = "provisioning";
+    let timeoutPeriod = 0;
     while (currentData == "provisioning") {
+        console.log("fetching current status...");
         const output = getCatalogItem(itemID);
         output.then((statusData) => currentData = statusData);
         console.log(currentData);
+        new Promise(done => setTimeout(done, 30000));
+        timeoutPeriod + 1;
+        console.log(timeoutPeriod);
     }
 }
 function getCatalogItem(itemID) {
@@ -88,7 +93,6 @@ function getCatalogItem(itemID) {
             throw new Error(message);
         }
         const itemOutput = yield itemResponse.json();
-        yield new Promise(done => setTimeout(done, 30000));
         console.log(itemOutput.instance.status);
         return itemOutput.instance.status;
     });

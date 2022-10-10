@@ -59,10 +59,15 @@ async function orderCatalogItem(name: OrderResponse): Promise<number> {
 function pollingWrapper(itemID: number){
  console.log("Polling api...")
  let currentData = "provisioning"
+ let timeoutPeriod = 0
  while (currentData == "provisioning") {
+  console.log("fetching current status...")
   const output = getCatalogItem(itemID)
   output.then((statusData) => currentData = statusData);  
   console.log(currentData)
+  new Promise(done => setTimeout(done, 30000));
+  timeoutPeriod + 1
+  console.log(timeoutPeriod)
  }
 }
 
@@ -74,7 +79,6 @@ async function getCatalogItem(itemID: number): Promise<string> {
     throw new Error(message);
   }
   const itemOutput = await itemResponse.json() as Item
-  await new Promise(done => setTimeout(done, 30000));  
   console.log(itemOutput.instance.status)
   return itemOutput.instance.status
 }
