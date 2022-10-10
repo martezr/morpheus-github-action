@@ -23,11 +23,21 @@ const process_1 = __nccwpck_require__(7282);
 const node_fetch_1 = __importDefault(__nccwpck_require__(4429));
 const core = __nccwpck_require__(2186);
 const github = __nccwpck_require__(5438);
+const https = __nccwpck_require__(5687);
 // Define the catalog item input parameters
 const inputName = core.getInput("name");
 const inputParameters = JSON.parse(core.getInput("parameters"));
 const morpheusAPI = process_1.env.MORPHEUS_API_URL;
 const morpheusToken = process_1.env.MORPHEUS_API_TOKEN;
+const verifySSL = core.getInput("verify_ssl");
+// Verify Morpheus SSL Certificate
+const httpsAgent = new https.Agent({
+    rejectUnauthorized: verifySSL,
+});
+// TODO: Add logic to check if user credentials have been provided
+// TODO: Add logic to check if the catalog item name exists
+// TODO: Add logic to perform a validation call
+// TODO: Add a global timeout parameter to avoid indefinite polling
 // Define the request payload
 var out = {
     "order": {
@@ -54,6 +64,7 @@ result.then((value) => {
 }).catch((err) => {
     console.log(err);
 });
+// orderCatalogItem submits a POST request to order a Morpheus catalog item
 function orderCatalogItem(name) {
     return __awaiter(this, void 0, void 0, function* () {
         console.log("Ordering catalog item");
@@ -96,25 +107,7 @@ function getCatalogItem(itemID) {
         }
         const itemOutput = yield itemResponse.json();
         console.log(itemOutput);
-        console.log(itemOutput.item.instance.status);
         return itemOutput.item.instance.status;
-    });
-}
-function delay(milliseconds) {
-    return new Promise(resolve => setTimeout(resolve, milliseconds));
-}
-function getActualId() {
-    return new Promise((resolve) => {
-        setTimeout(() => {
-            resolve(Math.floor(Math.random() * 100));
-        }, 100);
-    });
-}
-function getId(orderID) {
-    return __awaiter(this, void 0, void 0, function* () {
-        const result = yield Promise.resolve(orderID);
-        const greeting = result;
-        return greeting;
     });
 }
 
