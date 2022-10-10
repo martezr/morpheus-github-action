@@ -56,17 +56,17 @@ async function orderCatalogItem(name: OrderResponse): Promise<number> {
   return catalogOrder.order.items[0].id
 }
 
-function pollingWrapper(itemID: number){
+async function pollingWrapper(itemID: number){
  console.log("Polling api...")
  let currentData = "provisioning"
  let timeoutPeriod = 0
  while (currentData == "provisioning") {
   console.log("fetching current status...")
-  const output = getCatalogItem(itemID)
-  output.then((statusData) => currentData = statusData);  
+  const output = await getCatalogItem(itemID)
+  await new Promise(done => setTimeout(done, 30000));  
+  currentData = output
   console.log(currentData)
-  new Promise(done => setTimeout(done, 30000));
-  timeoutPeriod + 1
+  timeoutPeriod = timeoutPeriod + 1
   console.log(timeoutPeriod)
  }
 }

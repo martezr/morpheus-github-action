@@ -71,18 +71,20 @@ function orderCatalogItem(name) {
     });
 }
 function pollingWrapper(itemID) {
-    console.log("Polling api...");
-    let currentData = "provisioning";
-    let timeoutPeriod = 0;
-    while (currentData == "provisioning") {
-        console.log("fetching current status...");
-        const output = getCatalogItem(itemID);
-        output.then((statusData) => currentData = statusData);
-        console.log(currentData);
-        new Promise(done => setTimeout(done, 30000));
-        timeoutPeriod + 1;
-        console.log(timeoutPeriod);
-    }
+    return __awaiter(this, void 0, void 0, function* () {
+        console.log("Polling api...");
+        let currentData = "provisioning";
+        let timeoutPeriod = 0;
+        while (currentData == "provisioning") {
+            console.log("fetching current status...");
+            const output = yield getCatalogItem(itemID);
+            yield new Promise(done => setTimeout(done, 30000));
+            currentData = output;
+            console.log(currentData);
+            timeoutPeriod = timeoutPeriod + 1;
+            console.log(timeoutPeriod);
+        }
+    });
 }
 function getCatalogItem(itemID) {
     return __awaiter(this, void 0, void 0, function* () {
