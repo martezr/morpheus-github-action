@@ -10,9 +10,12 @@ const https = require('https');
 // Define the catalog item input parameters
 const inputName = core.getInput("name");
 const inputParameters = JSON.parse(core.getInput("parameters"));
+const verifySSL = core.getInput("verify_ssl");
+const globalTimeout = core.getInput("timeout")
+
 const morpheusAPI = env.MORPHEUS_API_URL
 const morpheusToken = env.MORPHEUS_API_TOKEN
-const verifySSL = core.getInput("verify_ssl");
+
 
 // Verify Morpheus SSL Certificate
 const httpsAgent = new https.Agent({
@@ -22,7 +25,10 @@ const httpsAgent = new https.Agent({
 // TODO: Add logic to check if user credentials have been provided
 // TODO: Add logic to check if the catalog item name exists
 // TODO: Add logic to perform a validation call
-// TODO: Add a global timeout parameter to avoid indefinite polling
+
+if (inputName == ""){
+  core.setFailed(`A name must be specified`);
+}
 
 // Define the request payload
 var out = {
@@ -77,11 +83,14 @@ async function pollingWrapper(itemID: number){
   while (currentData == "provisioning") {
     console.log("fetching current status...")
     const output = await getCatalogItem(itemID)
-    await new Promise(done => setTimeout(done, 30000));  
+    await new Promise(done => setTimeout(done, 60000));  
     currentData = output
     console.log(currentData)
     timeoutPeriod = timeoutPeriod + 1
     console.log(timeoutPeriod)
+    if (timeoutPeriod > globalTimeout){
+      core.setFailed(`The current build has exceeded the defined timeout of ${globalTimeout}`);
+    }
   }
 }
 

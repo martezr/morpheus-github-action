@@ -11,6 +11,10 @@ inputs:
     description: "Whether to verify the Morpheus server SSL certificate"
     required: false
     default: true
+  timeout:
+    description: "The timeout for the request of the catalog item in minutes"
+    required: false
+    default: 45
 outputs:
   time:
     description: 'The time we greeted you'
