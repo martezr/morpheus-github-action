@@ -56,14 +56,13 @@ async function orderCatalogItem(name: OrderResponse): Promise<number> {
   return catalogOrder.order.items[0].id
 }
 
-async function pollingWrapper(itemID: number){
+function pollingWrapper(itemID: number){
  console.log("Polling api...")
  let currentData = "provisioning"
  while (currentData == "provisioning") {
-  const output = await getCatalogItem(itemID)
-  currentData = output;  
+  const output = getCatalogItem(itemID)
+  output.then((statusData) => currentData = statusData);  
   console.log(currentData)
-  await new Promise(done => setTimeout(done, 30000));  
  }
 }
 
@@ -75,6 +74,7 @@ async function getCatalogItem(itemID: number): Promise<string> {
     throw new Error(message);
   }
   const itemOutput = await itemResponse.json() as Item
+  await new Promise(done => setTimeout(done, 30000));  
   console.log(itemOutput.instance.status)
   return itemOutput.instance.status
 }

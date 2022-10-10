@@ -71,16 +71,13 @@ function orderCatalogItem(name) {
     });
 }
 function pollingWrapper(itemID) {
-    return __awaiter(this, void 0, void 0, function* () {
-        console.log("Polling api...");
-        let currentData = "provisioning";
-        while (currentData == "provisioning") {
-            const output = yield getCatalogItem(itemID);
-            currentData = output;
-            console.log(currentData);
-            yield new Promise(done => setTimeout(done, 30000));
-        }
-    });
+    console.log("Polling api...");
+    let currentData = "provisioning";
+    while (currentData == "provisioning") {
+        const output = getCatalogItem(itemID);
+        output.then((statusData) => currentData = statusData);
+        console.log(currentData);
+    }
 }
 function getCatalogItem(itemID) {
     return __awaiter(this, void 0, void 0, function* () {
@@ -91,6 +88,7 @@ function getCatalogItem(itemID) {
             throw new Error(message);
         }
         const itemOutput = yield itemResponse.json();
+        yield new Promise(done => setTimeout(done, 30000));
         console.log(itemOutput.instance.status);
         return itemOutput.instance.status;
     });
