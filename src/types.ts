@@ -47,3 +47,6 @@ export interface Order {
     unit: string
   }
   
+  export interface CatalogItemResponse {
+    item: Item
+  }

@@ -96,8 +96,8 @@ function getCatalogItem(itemID) {
         }
         const itemOutput = yield itemResponse.json();
         console.log(itemOutput);
-        console.log(itemOutput.instance.status);
-        return itemOutput.instance.status;
+        console.log(itemOutput.item.instance.status);
+        return itemOutput.item.instance.status;
     });
 }
 function delay(milliseconds) {

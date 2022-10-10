@@ -1,7 +1,7 @@
 import {env} from "process";
 import fetch from "node-fetch";
 import { OrderResponse } from './types';
-import {Item} from './types'
+import {CatalogItemResponse} from './types'
 const core = require("@actions/core");
 const github = require("@actions/github");
 
@@ -78,10 +78,10 @@ async function getCatalogItem(itemID: number): Promise<string> {
     const message = `An error has occured: ${itemResponse.status}`;
     throw new Error(message);
   }
-  const itemOutput = await itemResponse.json() as Item
+  const itemOutput = await itemResponse.json() as CatalogItemResponse
   console.log(itemOutput)
-  console.log(itemOutput.instance.status)
-  return itemOutput.instance.status
+  console.log(itemOutput.item.instance.status)
+  return itemOutput.item.instance.status
 }
 
 function delay(milliseconds : number) {
