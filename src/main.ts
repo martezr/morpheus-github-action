@@ -28,6 +28,7 @@ const httpsAgent = new https.Agent({
 
 if (inputName == ""){
   core.setFailed(`A name must be specified`);
+  process.exit(1)
 }
 
 // Define the request payload
@@ -90,6 +91,7 @@ async function pollingWrapper(itemID: number){
     console.log(timeoutPeriod)
     if (timeoutPeriod > globalTimeout){
       core.setFailed(`The current build has exceeded the defined timeout of ${globalTimeout}`);
+      process.exit(1);
     }
   }
 }
