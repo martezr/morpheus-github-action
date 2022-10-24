@@ -45,9 +45,15 @@ if (inputName == "") {
 }
 var testParams = inputParameters.split(/\r?\n/);
 console.log(testParams);
+let map = new Map();
 testParams.forEach(function (value) {
-    console.log(value.split("=", 1));
+    var data = value.split("=", 2);
+    var key = data[0];
+    var value = data[1];
+    map.set(key, value);
 });
+const jsonPayload = Object.fromEntries(map);
+console.log(jsonPayload);
 // Define the request payload
 var out = {
     "order": {
