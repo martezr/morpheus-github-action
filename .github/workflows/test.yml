@@ -11,7 +11,7 @@ jobs:
         env:
           MORPHEUS_API_URL: ${{ secrets.MORPHEUS_API_URL }}
           MORPHEUS_API_TOKEN: ${{ secrets.MORPHEUS_API_TOKEN }}
-          TEST_ENV: 12345
+          TEST_ENV: 1
         uses: ./ # Uses an action in the root directory
         id: instanceProvision
         with:

@@ -32,36 +32,34 @@ if (inputName == ""){
   process.exit(1)
 }
 
-var testParams = inputParameters.split(/\r?\n/);
-console.log(testParams)
+// Iterate over the supplied parameters and generate a payload
+var orderParams = inputParameters.split(/\r?\n/);
 let map = new Map<string, string>()  
 
-testParams.forEach(function (value:string) {
+orderParams.forEach(function (value:string) {
   var data = value.split("=",2);
   var key = data[0]
   var value = data[1]
   map.set(key, value)
 }); 
 
-const jsonPayload = Object.fromEntries(map);
-console.log(jsonPayload)
+const inputParametersPayload = Object.fromEntries(map);
 
 // Define the request payload
-var out = {
+var orderPayload = {
   "order": {
     "items": [
         {
           "type": {
               "name": inputName
           },
-          "config": jsonPayload
+          "config": inputParametersPayload
         }
     ]
   }
 }
 
-const data = JSON.stringify(out)
-console.log(data)
+const data = JSON.stringify(orderPayload)
 
 // Define payload header
 const headers = {

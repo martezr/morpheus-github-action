@@ -43,32 +43,30 @@ if (inputName == "") {
     core.setFailed(`A name must be specified`);
     process.exit(1);
 }
-var testParams = inputParameters.split(/\r?\n/);
-console.log(testParams);
+// Iterate over the supplied parameters and generate a payload
+var orderParams = inputParameters.split(/\r?\n/);
 let map = new Map();
-testParams.forEach(function (value) {
+orderParams.forEach(function (value) {
     var data = value.split("=", 2);
     var key = data[0];
     var value = data[1];
     map.set(key, value);
 });
-const jsonPayload = Object.fromEntries(map);
-console.log(jsonPayload);
+const inputParametersPayload = Object.fromEntries(map);
 // Define the request payload
-var out = {
+var orderPayload = {
     "order": {
         "items": [
             {
                 "type": {
                     "name": inputName
                 },
-                "config": jsonPayload
+                "config": inputParametersPayload
             }
         ]
     }
 };
-const data = JSON.stringify(out);
-console.log(data);
+const data = JSON.stringify(orderPayload);
 // Define payload header
 const headers = {
     "Content-Type": "application/json",
