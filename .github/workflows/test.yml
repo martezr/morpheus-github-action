@@ -3,22 +3,25 @@ on: [push]
 jobs:
   morpheus_action_test_job:
     runs-on: ubuntu-latest
-    name: A job to say hello
+    name: Morpheus Github Action Test
     steps:
-      # To use this repository's private action,
-      # you must check out the repository
       - name: Checkout
         uses: actions/checkout@v3
-      - name: Hello world action step
+      - name: Call Morpheus
         env:
           MORPHEUS_API_URL: ${{ secrets.MORPHEUS_API_URL }}
           MORPHEUS_API_TOKEN: ${{ secrets.MORPHEUS_API_TOKEN }}
         uses: ./ # Uses an action in the root directory
-        id: hello
+        id: instanceProvision
         with:
           name: 'MongoDB'
-          parameters: '{"environment": 1,"databaseplan": 147,"mongodb_version":"4.4"}'
+          parameters: 
+            - name: environment
+              value: 1
+            - name: databaseplan
+              value: 147
+            - name: mongodb_version
+              value: 4.4
           timeout: 2
-      # Use the output from the `hello` step
       - name: Get the output time
-        run: echo "The time was ${{ steps.hello.outputs.time }}"
+        run: echo "The time was ${{ steps.instanceProvision.outputs.time }}"

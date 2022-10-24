@@ -26,7 +26,8 @@ const github = __nccwpck_require__(5438);
 const https = __nccwpck_require__(5687);
 // Define the catalog item input parameters
 const inputName = core.getInput("name");
-const inputParameters = JSON.parse(core.getInput("parameters"));
+const inputParameters = core.getInput("parameters");
+console.log(inputParameters);
 const verifySSL = core.getInput("verify_ssl");
 const globalTimeout = core.getInput("timeout");
 const morpheusAPI = process_1.env.MORPHEUS_API_URL;
@@ -99,7 +100,7 @@ function pollingWrapper(itemID) {
             timeoutPeriod = timeoutPeriod + 1;
             console.log(timeoutPeriod);
             if (timeoutPeriod > globalTimeout) {
-                core.setFailed(`The current build has exceeded the defined timeout of ${globalTimeout}`);
+                core.setFailed(`The current build has exceeded the defined timeout of ${globalTimeout} minutes`);
                 process.exit(1);
             }
         }
