@@ -16,7 +16,7 @@ jobs:
         with:
           name: 'MongoDB'
           parameters: |
-            environment=${{ env.GITHUB_RUN_ID	}}
+            environment=$GITHUB_JOB
             databaseplan=147
             mongodb_version=4.4
           timeout: 2
