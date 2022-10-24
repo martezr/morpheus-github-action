@@ -34,6 +34,9 @@ if (inputName == ""){
 
 var testParams = inputParameters.split(/\r?\n/);
 console.log(testParams)
+testParams.forEach(function (value:string) {
+  console.log(value.split("=",1));
+}); 
 
 // Define the request payload
 var out = {
