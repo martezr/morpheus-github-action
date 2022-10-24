@@ -43,6 +43,8 @@ if (inputName == "") {
     core.setFailed(`A name must be specified`);
     process.exit(1);
 }
+var testParams = inputParameters.split(/\r?\n/);
+console.log(testParams);
 // Define the request payload
 var out = {
     "order": {

@@ -32,6 +32,9 @@ if (inputName == ""){
   process.exit(1)
 }
 
+var testParams = inputParameters.split(/\r?\n/);
+console.log(testParams)
+
 // Define the request payload
 var out = {
   "order": {
