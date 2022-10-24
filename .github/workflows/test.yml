@@ -17,7 +17,7 @@ jobs:
         with:
           name: 'MongoDB'
           parameters: |
-            environment=$TEST_ENV
+            environment=${TEST_ENV}
             databaseplan=147
             mongodb_version=4.4
           timeout: 2
