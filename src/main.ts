@@ -54,13 +54,14 @@ var out = {
           "type": {
               "name": inputName
           },
-          "config": inputParameters
+          "config": jsonPayload
         }
     ]
   }
 }
 
 const data = JSON.stringify(out)
+console.log(data)
 
 // Define payload header
 const headers = {
