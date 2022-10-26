@@ -17,7 +17,6 @@ steps:
       environment=${{ env.TEST_ENV }}
       databaseplan=147
       mongodb_version=4.4
-    timeout: 2
 ```
 
 ## Environment Variables
