@@ -24,6 +24,7 @@ const httpsAgent = new https.Agent({
 });
 
 // TODO: Add logic to check if user credentials have been provided
+// TODO: Add friendly invalid token error
 // TODO: Add logic to check if the catalog item name exists
 // TODO: Add logic to perform a validation call
 
